@@ -13,10 +13,8 @@ class Tweet: NSObject {
     var timestamp: Date?
     var retweetCount: Int = 0
     var favoritesCount: Int = 0
-    var userProfileImageUrlString: String?
     var retweeterHandle: String?
-    var userName: String?
-    var userHandle: String?
+    var user: User?
     
     init(dictionary: NSDictionary) {
         text = dictionary["text"] as? String
@@ -29,10 +27,7 @@ class Tweet: NSObject {
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
         favoritesCount = (dictionary["favorites_count"] as? Int) ?? 0
         
-        let userDict = dictionary["user"] as? NSDictionary
-        userProfileImageUrlString = userDict?["profile_image_url_https"] as? String
-        userName = userDict?["name"] as? String
-        userHandle = userDict?["screen_name"] as? String
+        user = User.init(dictionary: (dictionary["user"] as? NSDictionary)!)
     
         let retweetStatusDict = dictionary["retweeted_status"] as? NSDictionary
         retweeterHandle = (retweetStatusDict?["user"] as? NSDictionary)?["screen_name"] as? String

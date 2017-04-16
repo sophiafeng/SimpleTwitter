@@ -22,9 +22,8 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweeterImage: UIImageView!
     
     func buildCellWithTweet(tweet: Tweet) {
-        if let userImageUrlString = tweet.userProfileImageUrlString {
-            let userImageUrl = URL(string:userImageUrlString)
-            userImage.setImageWith(userImageUrl!, placeholderImage: #imageLiteral(resourceName: "twitter_icon"))
+        if let userImageUrl = tweet.user?.profileUrl {
+            userImage.setImageWith(userImageUrl, placeholderImage: #imageLiteral(resourceName: "twitter_icon"))
             userImage.layer.cornerRadius = 5
             userImage.clipsToBounds = true
         }
@@ -37,8 +36,8 @@ class TweetCell: UITableViewCell {
              retweeterImage.image = nil
         }
         
-        userNameLabel.text = tweet.userName ?? ""
-        userHandleLabel.text = "@\(tweet.userHandle ?? "")"
+        userNameLabel.text = tweet.user?.name ?? ""
+        userHandleLabel.text = "@\(tweet.user?.screenname ?? "")"
         
         if let timestamp = tweet.timestamp {
             let timeIntervalSince = fabs(timestamp.timeIntervalSinceNow)
