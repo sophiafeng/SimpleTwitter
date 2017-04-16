@@ -17,6 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
+        // Set nav bar color
+        UINavigationBar.appearance().tintColor = UIColor.white
+        let navTitleAttributes = [
+            NSForegroundColorAttributeName: UIColor.white
+        ]
+        UINavigationBar.appearance().titleTextAttributes = navTitleAttributes
+        UINavigationBar.appearance().barTintColor = UIColor(red:0.00, green:0.67, blue:0.93, alpha:1.0)
+
+        
         if User.currentUser != nil {
             print("there is current user")
     
@@ -27,6 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             print("there is no current user")
         }
+        
+        NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: User.userDidLogoutNotification), object: nil, queue: OperationQueue.main) { (Notification) in
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let vc = storyboard.instantiateInitialViewController()
+            self.window?.rootViewController = vc
+        }
+        
         return true
     }
 
