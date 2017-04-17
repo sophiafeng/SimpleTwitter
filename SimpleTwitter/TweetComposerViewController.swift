@@ -14,6 +14,7 @@ import UIKit
 
 class TweetComposerViewController: UIViewController {
     weak var tweetComposerVCDelegte: TweetComposerViewControllerDelegate?
+    var repliedTweet: Tweet?
     
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
@@ -27,7 +28,7 @@ class TweetComposerViewController: UIViewController {
     @IBAction func onTweet(_ sender: UIBarButtonItem) {
         // No need to call API if tweet text field is empty
         if tweetTextField.text != nil && (tweetTextField.text?.trimmingCharacters(in: .whitespaces).characters.count)! > 0 {
-            TwitterClient.sharedInstance?.newTweet(tweetText: tweetTextField.text!, success: {
+            TwitterClient.sharedInstance?.newTweet(tweetText: tweetTextField.text!, replyToTweetId: nil, success: {_ in 
                 print("retweeted")
                 self.dismiss(animated: true) {
                     self.tweetComposerVCDelegte?.tweetComposerViewControllerOnTweetCompletion?(tweetComposerVC: self)
@@ -42,7 +43,6 @@ class TweetComposerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
 
         let user = User.currentUser
         
@@ -55,7 +55,12 @@ class TweetComposerViewController: UIViewController {
             userImage.clipsToBounds = true
         }
         
-        userHandleLabel.text = user?.screenname
+        userHandleLabel.text = "@\(user?.screenname ?? "")"
+
+        if let usernameReplyingTo = repliedTweet?.user?.screenname {
+            tweetTextField.text = "@\(usernameReplyingTo): "
+        }
+        
         tweetTextField.becomeFirstResponder()
     }
 

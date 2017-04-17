@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetComposerViewControllerDelegate {
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetComposerViewControllerDelegate, UIScrollViewDelegate {
     
     @IBAction func onLogoutButton(_ sender: Any) {
         TwitterClient.sharedInstance?.logout()
@@ -16,8 +16,17 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
     
-    var tweets: [Tweet]!
+    private var tweets: [Tweet]! {
+        didSet {
+            if ((tweets?.count) != nil) && (tweets?.count)! > 0 {
+                lastTweetId = tweets![tweets!.endIndex - 1].tweetId as? Int
+            }
+        }
+    }
+    
     var refreshControl: UIRefreshControl!
+    var isMoreDataLoading = false
+    var lastTweetId: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,14 +47,19 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // Save list of home timeline tweets fetched from api and reload table view
     func loadTimelineTweets() {
-        TwitterClient.sharedInstance?.homeTimeline(success: { (tweets: [Tweet]) in
-            self.tweets = tweets
-            for tweet in tweets {
-                print(tweet.text!)
+        TwitterClient.sharedInstance?.homeTimeline(lastTweetId: lastTweetId, success: { (tweets: [Tweet]) in
+            if self.isMoreDataLoading {
+                self.tweets.append(contentsOf: tweets)
+                self.isMoreDataLoading = false
+            } else {
+                self.tweets = tweets
             }
             self.refreshControl.endRefreshing()
             self.tableView.reloadData()
         }, failure: { (error: Error) in
+            if self.isMoreDataLoading {
+                self.isMoreDataLoading = false
+            }
             print(error.localizedDescription)
         })
     }
@@ -65,6 +79,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         
         let tweet = tweets[indexPath.row]
         cell.buildCellWithTweet(tweet: tweet)
+        cell.selectionStyle = UITableViewCellSelectionStyle.none
         return cell
     }
     
@@ -83,8 +98,34 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let navigationController = segue.destination as! UINavigationController
             let tweetComposerVC = navigationController.topViewController as! TweetComposerViewController
             tweetComposerVC.tweetComposerVCDelegte = self
+        } else if segue.identifier == "detailSegue" {
+            let detailsViewController = segue.destination as! DetailsViewController
+            let indexPath = tableView.indexPath(for: sender as! UITableViewCell)
+            detailsViewController.tweet = tweets[indexPath!.row]
+        } else if segue.identifier == "replyComposerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let tweetComposerVC = navigationController.topViewController as! TweetComposerViewController
+            let cell = (sender as! ReplyButton).superview?.superview
+            let indexPath = tableView.indexPath(for: cell as! UITableViewCell)
+            tweetComposerVC.tweetComposerVCDelegte = self
+            tweetComposerVC.repliedTweet = tweets[indexPath!.row]
         }
     }
- 
+    
+    // MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
+                isMoreDataLoading = true
+                loadTimelineTweets()
+            }
+            
+        }
+    }
 
 }

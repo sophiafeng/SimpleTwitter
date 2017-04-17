@@ -9,6 +9,7 @@
 import UIKit
 
 class TweetCell: UITableViewCell {
+    var tweet: Tweet?
 
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var retweeterLabel: UILabel!
@@ -16,18 +17,49 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var userHandleLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     @IBOutlet weak var tweetContentLabel: UILabel!
-    @IBOutlet weak var replyButton: UIButton!
-    @IBOutlet weak var retweetButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
     @IBOutlet weak var retweeterImage: UIImageView!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var favoriteCountLabel: UILabel!
+    
+    @IBAction func onRetweetButton(_ sender: RetweetButton) {
+        print("retweet button tapped")
+        if(sender.isSelected) {
+            // deselect
+            sender.isSelected = false
+            tweet?.retweeted = false
+            retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
+        } else {
+            // select with animation
+            sender.isSelected = true
+            tweet?.retweeted = true
+            retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
+        }
+    }
+    @IBAction func onFavoriteButton(_ sender: FavoriteButton) {
+        print("favorite button tapped")
+        if(sender.isSelected) {
+            // deselect
+            sender.isSelected = false
+            tweet?.favorited = false
+            favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)
+        } else {
+            // select with animation
+            sender.isSelected = true
+            tweet?.favorited = true
+            favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)
+        }
+    }
     
     func buildCellWithTweet(tweet: Tweet) {
+        self.tweet = tweet
+        
         if let userImageUrl = tweet.user?.profileUrl {
             userImage.setImageWith(userImageUrl, placeholderImage: #imageLiteral(resourceName: "twitter_icon"))
             userImage.layer.cornerRadius = 5
             userImage.clipsToBounds = true
         }
         
+        //@(todo) put in utility
         if (tweet.retweeterHandle != nil) {
             retweeterImage.image = #imageLiteral(resourceName: "twitter_retweet_icon")
             retweeterLabel.text = tweet.retweeterHandle
@@ -46,12 +78,8 @@ class TweetCell: UITableViewCell {
         }
         
         tweetContentLabel.text = tweet.text
-        replyButton.setImage(#imageLiteral(resourceName: "twitter_reply_icon"), for: UIControlState.normal)
-        retweetButton.setImage(#imageLiteral(resourceName: "twitter_retweet_icon"), for: UIControlState.normal)
-        favoriteButton.setImage(#imageLiteral(resourceName: "twitter_favorite_icon"), for: UIControlState.normal)
-        
-        
-        
+        retweetCountLabel.text = String(tweet.retweetCount)
+        favoriteCountLabel.text = String(tweet.favoritesCount)
     }
     
     override func awakeFromNib() {

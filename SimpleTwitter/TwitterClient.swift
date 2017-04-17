@@ -73,8 +73,12 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func homeTimeline(success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
-        get("1.1/statuses/home_timeline.json", parameters: nil, progress: nil, success: {
+    func homeTimeline(lastTweetId: Int? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        var params = ["count": 20]
+        if lastTweetId != nil {
+            params["max_id"] = lastTweetId
+        }
+        get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: {
             (task: URLSessionDataTask, response: Any?) in
             let dictionaries = response as! [NSDictionary]
             let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
@@ -84,11 +88,33 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func newTweet(tweetText: String, success: @escaping () -> (), failure: @escaping (Error) -> ()) {
-            post("/1.1/statuses/update.json", parameters: ["status": tweetText], progress: nil, success: { (_: URLSessionDataTask, resp) -> Void in
-                success()
+    func newTweet(tweetText: String, replyToTweetId: NSNumber? = 0, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
+            post("/1.1/statuses/update.json", parameters: ["status": tweetText, "in_reply_to_status_id": Int(replyToTweetId ?? 0)], progress: nil, success: { (_: URLSessionDataTask, resp) -> Void in
+                let tweet = Tweet(dictionary: resp as! NSDictionary)
+                success(tweet)
             }, failure: { (task: URLSessionDataTask?, error: Error) in
                 failure(error)
             })
+    }
+    
+    func retweet(params: NSDictionary?, retweet: Bool, completion: @escaping (Tweet?, Error?) -> (Void)) {
+        let tweetID = params!["id"] as! Int
+        let endpoint = retweet ? "retweet" : "unretweet"
+        post("1.1/statuses/\(endpoint)/\(tweetID).json", parameters: params, progress: nil, success: { (_: URLSessionDataTask, resp) -> Void in
+            let tweet = Tweet(dictionary: resp as! NSDictionary)
+            completion(tweet, nil)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            completion(nil, error)
+        })
+    }
+    
+    func favorite(params: NSDictionary?, favorite: Bool, completion: @escaping (Tweet?, Error?) -> (Void)) {
+        let endpoint = favorite ? "create" : "destroy"
+        post("1.1/favorites/\(endpoint).json", parameters: params, progress: nil, success: { (_: URLSessionDataTask, resp) -> Void in
+            let tweet = Tweet(dictionary: resp as! NSDictionary)
+            completion(tweet, nil)
+        }, failure: { (task: URLSessionDataTask?, error: Error) -> Void in
+            completion(nil, error)
+        })
     }
 }
