@@ -8,15 +8,41 @@
 
 import UIKit
 
-class TweetComposerViewController: UIViewController {
+@objc protocol TweetComposerViewControllerDelegate {
+    @objc optional func tweetComposerViewControllerOnTweetCompletion(tweetComposerVC: TweetComposerViewController)
+}
 
+class TweetComposerViewController: UIViewController {
+    weak var tweetComposerVCDelegte: TweetComposerViewControllerDelegate?
+    
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userHandleLabel: UILabel!
     @IBOutlet weak var tweetTextField: UITextField!
     
+    @IBAction func onCancel(_ sender: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func onTweet(_ sender: UIBarButtonItem) {
+        // No need to call API if tweet text field is empty
+        if tweetTextField.text != nil && (tweetTextField.text?.trimmingCharacters(in: .whitespaces).characters.count)! > 0 {
+            TwitterClient.sharedInstance?.newTweet(tweetText: tweetTextField.text!, success: {
+                print("retweeted")
+                self.dismiss(animated: true) {
+                    self.tweetComposerVCDelegte?.tweetComposerViewControllerOnTweetCompletion?(tweetComposerVC: self)
+                }
+            }, failure: { (error: Error) in
+                print("Error: \(error.localizedDescription)")
+            })
+        } else {
+            showErrorAlert(title: "Invalid tweet", errorMsg: "Tweet content cannot be empty")
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
 
         let user = User.currentUser
         
@@ -30,8 +56,7 @@ class TweetComposerViewController: UIViewController {
         }
         
         userHandleLabel.text = user?.screenname
-        
-        
+        tweetTextField.becomeFirstResponder()
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,6 +64,15 @@ class TweetComposerViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    func showErrorAlert(title: String, errorMsg: String) {
+        let alertController = UIAlertController(title: title, message: errorMsg, preferredStyle: .alert)
+        let OKAction = UIAlertAction(title: "OK", style: .default) { (action) in
+            // handle response here.
+        }
+        // add the OK action to the alert controller
+        alertController.addAction(OKAction)
+        self.present(alertController, animated: true)
+    }
 
     /*
     // MARK: - Navigation

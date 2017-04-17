@@ -8,14 +8,10 @@
 
 import UIKit
 
-class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetComposerViewControllerDelegate {
     
     @IBAction func onLogoutButton(_ sender: Any) {
         TwitterClient.sharedInstance?.logout()
-    }
-    
-    @IBAction func onNewButton(_ sender: UIBarButtonItem) {
-        // modal segue to compose
     }
     
     @IBOutlet weak var tableView: UITableView!
@@ -76,15 +72,19 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         return tweets?.count ?? 0
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - TweetComposerViewControllerDelegate methods
+    func tweetComposerViewControllerOnTweetCompletion(tweetComposerVC: TweetComposerViewController) {
+        loadTimelineTweets()
     }
-    */
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "composerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let tweetComposerVC = navigationController.topViewController as! TweetComposerViewController
+            tweetComposerVC.tweetComposerVCDelegte = self
+        }
+    }
+ 
 
 }

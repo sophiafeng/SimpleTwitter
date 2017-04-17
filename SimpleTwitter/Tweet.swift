@@ -31,7 +31,6 @@ class Tweet: NSObject {
     
         let retweetStatusDict = dictionary["retweeted_status"] as? NSDictionary
         retweeterHandle = (retweetStatusDict?["user"] as? NSDictionary)?["screen_name"] as? String
-
     }
     
     class func tweetsWithArray(dictionaries: [NSDictionary]) -> [Tweet] {

@@ -89,7 +89,6 @@ class TwitterClient: BDBOAuth1SessionManager {
                 success()
             }, failure: { (task: URLSessionDataTask?, error: Error) in
                 failure(error)
-                print(error.localizedDescription)
             })
     }
 }

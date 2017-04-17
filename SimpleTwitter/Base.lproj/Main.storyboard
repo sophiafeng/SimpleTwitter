@@ -65,7 +65,7 @@
                                         <rect key="frame" x="0.0" y="28" width="375" height="187"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="47O-kH-N7f" id="nPI-y5-aK9">
-                                            <rect key="frame" x="0.0" y="0.0" width="375" height="187"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="186.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="oYG-nL-R9J">
@@ -82,7 +82,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@sophfeng" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="meB-B3-f8g">
-                                                    <rect key="frame" x="166.5" y="36" width="69" height="16"/>
+                                                    <rect key="frame" x="166.5" y="35" width="69" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.77734375" green="0.77734375" blue="0.77734375" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -94,7 +94,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="2h" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UcY-T7-zjp">
-                                                    <rect key="frame" x="351" y="36" width="16" height="16"/>
+                                                    <rect key="frame" x="351" y="35" width="16" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.77734375" green="0.77734375" blue="0.77734375" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -192,7 +192,6 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="New" id="6pF-m1-ZoF">
                             <connections>
-                                <action selector="onNewButton:" destination="pfr-ew-mKa" id="U2N-cx-UpF"/>
                                 <segue destination="JLU-iD-Nc5" kind="presentation" identifier="composerSegue" id="08N-IN-IvM"/>
                             </connections>
                         </barButtonItem>
@@ -244,6 +243,7 @@
                             </textField>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="tintColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="CXR-ec-gMN" firstAttribute="leading" secondItem="cki-m7-oAD" secondAttribute="leading" id="36B-xw-APZ"/>
                             <constraint firstItem="pxf-sY-nYR" firstAttribute="leading" secondItem="yWF-ii-zeI" secondAttribute="leading" constant="16" id="6ET-M3-1UB"/>
@@ -257,8 +257,16 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="qb5-RA-xxc">
-                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="vs5-SR-XDg"/>
-                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="aMk-4P-J5f"/>
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="vs5-SR-XDg">
+                            <connections>
+                                <action selector="onCancel:" destination="sQi-Ou-BWg" id="7nS-TC-RvE"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Tweet" id="aMk-4P-J5f">
+                            <connections>
+                                <action selector="onTweet:" destination="sQi-Ou-BWg" id="XY4-Ou-ghp"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="tweetTextField" destination="nhV-5z-IOO" id="I7q-QZ-Dig"/>
