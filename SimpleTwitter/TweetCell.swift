@@ -24,12 +24,10 @@ class TweetCell: UITableViewCell {
     @IBAction func onRetweetButton(_ sender: RetweetButton) {
         print("retweet button tapped")
         if(sender.isSelected) {
-            // deselect
             sender.isSelected = false
             tweet?.retweeted = false
             retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
         } else {
-            // select with animation
             sender.isSelected = true
             tweet?.retweeted = true
             retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
@@ -38,12 +36,10 @@ class TweetCell: UITableViewCell {
     @IBAction func onFavoriteButton(_ sender: FavoriteButton) {
         print("favorite button tapped")
         if(sender.isSelected) {
-            // deselect
             sender.isSelected = false
             tweet?.favorited = false
             favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)
         } else {
-            // select with animation
             sender.isSelected = true
             tweet?.favorited = true
             favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)

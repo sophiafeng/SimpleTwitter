@@ -23,7 +23,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaL-R3-YcY">
-                                <rect key="frame" x="61" y="384" width="252" height="138"/>
+                                <rect key="frame" x="61" y="400" width="252" height="138"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.31511806942119192" green="0.76747365242236909" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <state key="normal" title="Log in with Twitter">
@@ -393,29 +393,38 @@
                                 <color key="textColor" red="0.77734375" green="0.77734375" blue="0.77734375" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3LA-JX-q9p">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3LA-JX-q9p" customClass="ReplyButton" customModule="SimpleTwitter" customModuleProvider="target">
                                 <rect key="frame" x="15" y="280" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="fAm-0T-3e7"/>
                                     <constraint firstAttribute="height" constant="30" id="kIh-H1-WqV"/>
                                 </constraints>
                                 <state key="normal" title="r"/>
+                                <connections>
+                                    <segue destination="JLU-iD-Nc5" kind="presentation" identifier="detailsReplyComposerSegue" id="w35-Kh-fr4"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QwW-H9-03r">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QwW-H9-03r" customClass="FavoriteButton" customModule="SimpleTwitter" customModuleProvider="target">
                                 <rect key="frame" x="255" y="280" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="27F-25-HMT"/>
                                     <constraint firstAttribute="height" constant="30" id="qLx-Z2-ped"/>
                                 </constraints>
                                 <state key="normal" title="favorite"/>
+                                <connections>
+                                    <action selector="onFavoriteButton:" destination="ZY7-s5-nXh" eventType="touchUpInside" id="FpP-Ui-ZrS"/>
+                                </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssl-B2-wVZ">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ssl-B2-wVZ" customClass="RetweetButton" customModule="SimpleTwitter" customModuleProvider="target">
                                 <rect key="frame" x="135" y="280" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="INb-Qi-bYc"/>
                                     <constraint firstAttribute="width" constant="30" id="b2q-tV-1oN"/>
                                 </constraints>
                                 <state key="normal" title="retweet"/>
+                                <connections>
+                                    <action selector="onRetweetButton:" destination="ZY7-s5-nXh" eventType="touchUpInside" id="hk3-SO-E0j"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ruw-1F-BjW">
                                 <rect key="frame" x="15" y="234" width="24" height="16"/>
@@ -479,9 +488,8 @@
                         <barButtonItem key="rightBarButtonItem" title="Reply" id="ROy-rs-fY1"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="favoriteButton" destination="QwW-H9-03r" id="XTH-YV-OMb"/>
-                        <outlet property="replyButton" destination="3LA-JX-q9p" id="c3K-G1-VKM"/>
-                        <outlet property="retweetButton" destination="Ssl-B2-wVZ" id="eEa-7T-9GI"/>
+                        <outlet property="favoriteCountLabel" destination="wuv-gR-FPO" id="8Fd-FC-sLc"/>
+                        <outlet property="retweetCountLabel" destination="Ruw-1F-BjW" id="8O3-Xe-YAC"/>
                         <outlet property="retweeterImage" destination="hy3-fp-ncg" id="qQu-S3-naK"/>
                         <outlet property="retweeterLabel" destination="0TS-vs-DgD" id="DsY-DJ-vrR"/>
                         <outlet property="timestampLabel" destination="Bpp-zw-ol8" id="jB1-h6-IHw"/>
@@ -493,11 +501,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jc1-0d-jn9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2984.8000000000002" y="848.72563718140941"/>
+            <point key="canvasLocation" x="2428" y="894"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="cEW-n7-n3z"/>
+        <segue reference="w35-Kh-fr4"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

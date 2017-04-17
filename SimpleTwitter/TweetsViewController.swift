@@ -26,7 +26,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     var refreshControl: UIRefreshControl!
     var isMoreDataLoading = false
-    var lastTweetId: Int?
+    var lastTweetId: Int? = -1
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +46,8 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     }
     
     // Save list of home timeline tweets fetched from api and reload table view
-    func loadTimelineTweets() {
-        TwitterClient.sharedInstance?.homeTimeline(lastTweetId: lastTweetId, success: { (tweets: [Tweet]) in
+    func loadTimelineTweets(loadLastTweetId: Int? = nil) {
+        TwitterClient.sharedInstance?.homeTimeline(lastTweetId: loadLastTweetId, success: { (tweets: [Tweet]) in
             if self.isMoreDataLoading {
                 self.tweets.append(contentsOf: tweets)
                 self.isMoreDataLoading = false
@@ -122,7 +122,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             // When the user has scrolled past the threshold, start requesting
             if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
                 isMoreDataLoading = true
-                loadTimelineTweets()
+                loadTimelineTweets(loadLastTweetId: lastTweetId)
             }
             
         }

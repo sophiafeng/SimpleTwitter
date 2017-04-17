@@ -17,9 +17,33 @@ class DetailsViewController: UIViewController {
     @IBOutlet weak var userHandleLabel: UILabel!
     @IBOutlet weak var tweetContentLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
-    @IBOutlet weak var replyButton: UIButton!
-    @IBOutlet weak var retweetButton: UIButton!
-    @IBOutlet weak var favoriteButton: UIButton!
+    @IBOutlet weak var retweetCountLabel: UILabel!
+    @IBOutlet weak var favoriteCountLabel: UILabel!
+    
+    @IBAction func onRetweetButton(_ sender: RetweetButton) {
+        print("retweet button tapped")
+        if(sender.isSelected) {
+            sender.isSelected = false
+            tweet?.retweeted = false
+            retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
+        } else {
+            sender.isSelected = true
+            tweet?.retweeted = true
+            retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
+        }
+    }
+    @IBAction func onFavoriteButton(_ sender: FavoriteButton) {
+        print("favorite button tapped")
+        if(sender.isSelected) {
+            sender.isSelected = false
+            tweet?.favorited = false
+            favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)
+        } else {
+            sender.isSelected = true
+            tweet?.favorited = true
+            favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)
+        }
+    }
     
     var tweet: Tweet?
     
@@ -54,10 +78,8 @@ class DetailsViewController: UIViewController {
         userNameLabel.text = user?.name ?? ""
         userHandleLabel.text = "@\(user?.screenname ?? "")"
         
-        replyButton.setImage(#imageLiteral(resourceName: "twitter_reply_icon"), for: UIControlState.normal)
-        retweetButton.setImage(#imageLiteral(resourceName: "twitter_retweet_icon"), for: UIControlState.normal)
-        favoriteButton.setImage(#imageLiteral(resourceName: "twitter_favorite_icon"), for: UIControlState.normal)
-        favoriteButton.setImage(#imageLiteral(resourceName: "twitter_favorited_icon"), for: UIControlState.selected)
+        retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
+        favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)
     }
 
     override func didReceiveMemoryWarning() {
@@ -65,15 +87,13 @@ class DetailsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+         if segue.identifier == "detailsReplyComposerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let tweetComposerVC = navigationController.topViewController as! TweetComposerViewController
+            tweetComposerVC.repliedTweet = tweet
+        }
     }
-    */
 
 }

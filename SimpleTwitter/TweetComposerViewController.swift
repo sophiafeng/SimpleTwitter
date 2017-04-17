@@ -28,7 +28,7 @@ class TweetComposerViewController: UIViewController {
     @IBAction func onTweet(_ sender: UIBarButtonItem) {
         // No need to call API if tweet text field is empty
         if tweetTextField.text != nil && (tweetTextField.text?.trimmingCharacters(in: .whitespaces).characters.count)! > 0 {
-            TwitterClient.sharedInstance?.newTweet(tweetText: tweetTextField.text!, replyToTweetId: nil, success: {_ in 
+            TwitterClient.sharedInstance?.newTweet(tweetText: tweetTextField.text!, replyToTweetId: repliedTweet?.tweetId, success: {_ in
                 print("retweeted")
                 self.dismiss(animated: true) {
                     self.tweetComposerVCDelegte?.tweetComposerViewControllerOnTweetCompletion?(tweetComposerVC: self)

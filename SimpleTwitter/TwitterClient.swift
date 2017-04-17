@@ -75,7 +75,7 @@ class TwitterClient: BDBOAuth1SessionManager {
     
     func homeTimeline(lastTweetId: Int? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         var params = ["count": 20]
-        if lastTweetId != nil {
+        if lastTweetId != nil && lastTweetId! > 0 {
             params["max_id"] = lastTweetId
         }
         get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: {

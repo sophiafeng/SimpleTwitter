@@ -19,5 +19,53 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleTwitter/TweetComposerViewController.swift"
+            timestampString = "514101937.86332"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "onTweet(_:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleTwitter.TweetComposerViewController.(onTweet (__ObjC.UIBarButtonItem) -&gt; ()).(closure #1)"
+                  moduleName = "SimpleTwitter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sophia/Developers/SimpleTwitter/SimpleTwitter/TweetComposerViewController.swift"
+                  timestampString = "514102038.09479"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "167">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleTwitter.TweetComposerViewController.(onTweet (__ObjC.UIBarButtonItem) -&gt; ()).(closure #1).(closure #1)"
+                  moduleName = "SimpleTwitter"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/sophia/Developers/SimpleTwitter/SimpleTwitter/TweetComposerViewController.swift"
+                  timestampString = "514102038.097601"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "34"
+                  endingLineNumber = "34"
+                  offsetFromSymbolStart = "19">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
