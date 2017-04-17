@@ -2,7 +2,7 @@
 
 **Simple Twitter** is a basic twitter app to read and compose tweets from the [Twitter API](https://apps.twitter.com/).
 
-Time spent: **15** hours spent in total
+Time spent: **16** hours spent in total
 
 ## User Stories
 
@@ -48,7 +48,7 @@ I don't use Twitter, so it took me a while understanding the different API's and
 
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright 2017 Sophia Feng
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
