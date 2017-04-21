@@ -58,7 +58,7 @@ class Tweet: NSObject {
             timestamp = dateFormatter.date(from: timestampString)
         }
         retweetCount = (dictionary["retweet_count"] as? Int) ?? 0
-        favoritesCount = (dictionary["favorites_count"] as? Int) ?? 0
+        favoritesCount = (dictionary["favorite_count"] as? Int) ?? 0
         
         user = User.init(dictionary: (dictionary["user"] as? NSDictionary)!)
     
@@ -79,5 +79,9 @@ class Tweet: NSObject {
             tweets.append(tweet)
         }
         return tweets
+    }
+    
+    func wasRetweetedByCurrentUser() -> Bool {
+        return retweeterHandle != nil && retweeterHandle == user?.screenname
     }
 }

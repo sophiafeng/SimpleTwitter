@@ -42,7 +42,7 @@
                   moduleName = "SimpleTwitter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sophia/Developers/SimpleTwitter/SimpleTwitter/TweetComposerViewController.swift"
-                  timestampString = "514102038.09479"
+                  timestampString = "514443541.940604"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "33"
@@ -57,7 +57,7 @@
                   moduleName = "SimpleTwitter"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/sophia/Developers/SimpleTwitter/SimpleTwitter/TweetComposerViewController.swift"
-                  timestampString = "514102038.097601"
+                  timestampString = "514443541.94254"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "34"
@@ -65,6 +65,38 @@
                   offsetFromSymbolStart = "19">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleTwitter/Tweet.swift"
+            timestampString = "514443035.614844"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "favorited"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleTwitter/TweetCell.swift"
+            timestampString = "514443188.863379"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "81"
+            endingLineNumber = "81"
+            landmarkName = "buildCellWithTweet(tweet:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

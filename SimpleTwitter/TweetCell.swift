@@ -21,6 +21,9 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetCountLabel: UILabel!
     @IBOutlet weak var favoriteCountLabel: UILabel!
     
+    @IBOutlet weak var retweetButton: RetweetButton!
+    @IBOutlet weak var favoriteButton: FavoriteButton!
+    
     @IBAction func onRetweetButton(_ sender: RetweetButton) {
         print("retweet button tapped")
         if(sender.isSelected) {
@@ -75,7 +78,9 @@ class TweetCell: UITableViewCell {
         
         tweetContentLabel.text = tweet.text
         retweetCountLabel.text = String(tweet.retweetCount)
+        retweetButton.isSelected = tweet.wasRetweetedByCurrentUser()
         favoriteCountLabel.text = String(tweet.favoritesCount)
+        favoriteButton.isSelected = tweet.favorited
     }
     
     override func awakeFromNib() {
