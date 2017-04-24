@@ -73,12 +73,16 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
-    func homeTimeline(lastTweetId: Int? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+    func homeTimeline(lastTweetId: Int? = nil, timelineType: TimelineType, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        var api = "1.1/statuses/home_timeline.json"
+        if timelineType == TimelineType.mentions {
+            api = "1.1/statuses/mentions_timeline.json"
+        }
         var params = ["count": 20]
         if lastTweetId != nil && lastTweetId! > 0 {
             params["max_id"] = lastTweetId
         }
-        get("1.1/statuses/home_timeline.json", parameters: params, progress: nil, success: {
+        get(api, parameters: params, progress: nil, success: {
             (task: URLSessionDataTask, response: Any?) in
             let dictionaries = response as! [NSDictionary]
             let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
@@ -87,6 +91,21 @@ class TwitterClient: BDBOAuth1SessionManager {
             failure(error)
         })
     }
+    
+//    func mentionsTimeline(lastTweetId: Int? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+//        var params = ["count": 20]
+//        if lastTweetId != nil && lastTweetId! > 0 {
+//            params["max_id"] = lastTweetId
+//        }
+//        get("1.1/statuses/mentions_timeline.json", parameters: params, progress: nil, success: {
+//            (task: URLSessionDataTask, response: Any?) in
+//            let dictionaries = response as! [NSDictionary]
+//            let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
+//            success(tweets)
+//        }, failure: { (task: URLSessionDataTask?, error: Error) in
+//            failure(error)
+//        })
+//    }
     
     func userTimeline(userId: Int?, lastTweetId: Int? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
         var params = ["count": 20]

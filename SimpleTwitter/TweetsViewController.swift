@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum TimelineType {
+    case home
+    case mentions
+}
+
 class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, TweetComposerViewControllerDelegate, UIScrollViewDelegate {
     
     @IBAction func onLogoutButton(_ sender: Any) {
@@ -34,9 +39,15 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     var refreshControl: UIRefreshControl!
     var isMoreDataLoading = false
     var lastTweetId: Int? = -1
+    var timelineType: TimelineType! = TimelineType.home
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    
+        // Set timeline type
+        if self.restorationIdentifier == "MentionsViewController" {
+            timelineType = TimelineType.mentions
+        }
         
         // Set up tableview defaults
         tableView.delegate = self
@@ -54,7 +65,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     // Save list of home timeline tweets fetched from api and reload table view
     func loadTimelineTweets(loadLastTweetId: Int? = nil) {
-        TwitterClient.sharedInstance?.homeTimeline(lastTweetId: loadLastTweetId, success: { (tweets: [Tweet]) in
+        TwitterClient.sharedInstance?.homeTimeline(lastTweetId: loadLastTweetId, timelineType: timelineType, success: { (tweets: [Tweet]) in
             if self.isMoreDataLoading {
                 self.tweets.append(contentsOf: tweets)
                 self.isMoreDataLoading = false

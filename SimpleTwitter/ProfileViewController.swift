@@ -25,7 +25,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     var lastTweetId: Int? = -1
     var userId: Int? = -1
     
-    var user: User!
+    var user: User! = User.currentUser
     
     private var tweets: [Tweet]! {
         didSet {
