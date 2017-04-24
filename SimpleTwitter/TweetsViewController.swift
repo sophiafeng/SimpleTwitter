@@ -21,6 +21,7 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet var imageTapGesture: UITapGestureRecognizer!
     var userTapped: User?
     @IBAction func onUserImageTap(_ sender: UITapGestureRecognizer) {
         print("tapped user image")

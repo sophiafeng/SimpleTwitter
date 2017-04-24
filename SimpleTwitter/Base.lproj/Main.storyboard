@@ -538,6 +538,7 @@
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="imageTapGesture" destination="MiU-hR-TVs" id="f7a-XJ-fdf"/>
                         <outlet property="tableView" destination="Muf-Rd-gb5" id="C9V-12-phl"/>
                         <segue destination="EBK-eD-VRF" kind="show" identifier="userProfileSegue" id="qtm-1Y-qFV"/>
                     </connections>
@@ -1186,9 +1187,9 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="HZd-sV-kA5"/>
         <segue reference="qtm-1Y-qFV"/>
         <segue reference="3ag-XE-j4g"/>
-        <segue reference="QnE-jy-nes"/>
     </inferredMetricsTieBreakers>
     <color key="tintColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
