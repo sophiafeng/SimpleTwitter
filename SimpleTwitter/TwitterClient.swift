@@ -88,6 +88,24 @@ class TwitterClient: BDBOAuth1SessionManager {
         })
     }
     
+    func userTimeline(userId: Int?, lastTweetId: Int? = nil, success: @escaping ([Tweet]) -> (), failure: @escaping (Error) -> ()) {
+        var params = ["count": 20]
+        if userId != nil {
+            params["user_id"] = userId
+        }
+        if lastTweetId != nil && lastTweetId! > 0 {
+            params["max_id"] = lastTweetId
+        }
+        get("1.1/statuses/user_timeline.json", parameters: params, progress: nil, success: {
+            (task: URLSessionDataTask, response: Any?) in
+            let dictionaries = response as! [NSDictionary]
+            let tweets = Tweet.tweetsWithArray(dictionaries: dictionaries)
+            success(tweets)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            failure(error)
+        })
+    }
+    
     func newTweet(tweetText: String, replyToTweetId: NSNumber? = 0, success: @escaping (Tweet) -> (), failure: @escaping (Error) -> ()) {
             post("/1.1/statuses/update.json", parameters: ["status": tweetText, "in_reply_to_status_id": Int(replyToTweetId ?? 0)], progress: nil, success: { (_: URLSessionDataTask, resp) -> Void in
                 let tweet = Tweet(dictionary: resp as! NSDictionary)
@@ -117,4 +135,15 @@ class TwitterClient: BDBOAuth1SessionManager {
             completion(nil, error)
         })
     }
+    
+    func profileBanner(userHandle: String?, completion: @escaping (String?, Error?) -> (Void)) {
+        get("/1.1/users/profile_banner.json", parameters: ["screen_name": userHandle], progress: nil, success: { (_: URLSessionDataTask, resp) -> Void in
+            let dictionary = resp as! NSDictionary
+            let bannerUrlString = ((dictionary["sizes"] as! NSDictionary)["mobile"] as! NSDictionary)["url"]
+            completion(bannerUrlString as? String, nil)
+        }, failure: { (task: URLSessionDataTask?, error: Error) in
+            completion(nil, error)
+        })
+    }
+
 }

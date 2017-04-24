@@ -56,7 +56,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DxM-8v-DPF">
-                                <rect key="frame" x="0.0" y="69" width="375" height="261"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="283"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" tag="1" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Db7-c8-jQG">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="152"/>
@@ -132,17 +132,24 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2GZ-kg-0pV">
-                                        <rect key="frame" x="0.0" y="260" width="375" height="1"/>
+                                        <rect key="frame" x="0.0" y="282" width="375" height="1"/>
                                         <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="Ne9-Ha-ZgQ"/>
                                         </constraints>
                                     </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sophia is cool" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GjI-0K-Vxh">
+                                        <rect key="frame" x="15" y="249" width="352" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <constraints>
                                     <constraint firstItem="ll5-7q-wQD" firstAttribute="trailing" secondItem="WMI-jy-FRV" secondAttribute="trailing" id="2rJ-29-8EV"/>
                                     <constraint firstItem="Db7-c8-jQG" firstAttribute="top" secondItem="DxM-8v-DPF" secondAttribute="top" id="3fs-gM-XbN"/>
                                     <constraint firstAttribute="trailing" secondItem="Khh-kt-Um2" secondAttribute="trailing" constant="8" id="5r3-zv-2Bp"/>
+                                    <constraint firstItem="GjI-0K-Vxh" firstAttribute="trailing" secondItem="z1Q-DW-QP5" secondAttribute="trailing" id="6ex-dL-ib1"/>
                                     <constraint firstItem="WMI-jy-FRV" firstAttribute="centerY" secondItem="tXD-yU-RAU" secondAttribute="centerY" id="8lx-c5-jbt"/>
                                     <constraint firstItem="zTy-yO-8mg" firstAttribute="centerY" secondItem="Khh-kt-Um2" secondAttribute="centerY" id="9Kp-Hy-eBW"/>
                                     <constraint firstItem="MLU-8s-xC9" firstAttribute="top" secondItem="DxM-8v-DPF" secondAttribute="top" constant="112" id="9PM-pn-YRY"/>
@@ -154,13 +161,15 @@
                                     <constraint firstAttribute="bottom" secondItem="2GZ-kg-0pV" secondAttribute="bottom" id="XMx-SF-Fre"/>
                                     <constraint firstItem="z1Q-DW-QP5" firstAttribute="trailing" secondItem="tXD-yU-RAU" secondAttribute="trailing" id="YFb-u5-bkg"/>
                                     <constraint firstItem="htD-R5-DqJ" firstAttribute="top" secondItem="MLU-8s-xC9" secondAttribute="bottom" constant="8" id="YRQ-Vx-Twh"/>
-                                    <constraint firstAttribute="height" constant="261" id="e5I-qe-JvZ"/>
+                                    <constraint firstItem="GjI-0K-Vxh" firstAttribute="top" secondItem="Bkb-ho-Xzp" secondAttribute="bottom" constant="8" id="gHW-f9-HVc"/>
                                     <constraint firstAttribute="trailing" secondItem="2GZ-kg-0pV" secondAttribute="trailing" id="jtJ-Is-Jf1"/>
                                     <constraint firstItem="2GZ-kg-0pV" firstAttribute="leading" secondItem="DxM-8v-DPF" secondAttribute="leading" id="ncs-wI-F86"/>
+                                    <constraint firstItem="2GZ-kg-0pV" firstAttribute="top" secondItem="GjI-0K-Vxh" secondAttribute="bottom" constant="15" id="qdo-cT-sbJ"/>
                                     <constraint firstItem="Bkb-ho-Xzp" firstAttribute="leading" secondItem="htD-R5-DqJ" secondAttribute="leading" id="rGH-PH-nHz"/>
                                     <constraint firstItem="Bkb-ho-Xzp" firstAttribute="top" secondItem="htD-R5-DqJ" secondAttribute="bottom" constant="4" id="s6O-sG-Puw"/>
                                     <constraint firstItem="ll5-7q-wQD" firstAttribute="centerY" secondItem="z1Q-DW-QP5" secondAttribute="centerY" id="tOY-04-aHx"/>
                                     <constraint firstItem="zTy-yO-8mg" firstAttribute="trailing" secondItem="WMI-jy-FRV" secondAttribute="trailing" id="vdH-mx-ugU"/>
+                                    <constraint firstItem="GjI-0K-Vxh" firstAttribute="leading" secondItem="Bkb-ho-Xzp" secondAttribute="leading" id="y49-Mm-OOW"/>
                                     <constraint firstItem="z1Q-DW-QP5" firstAttribute="top" secondItem="tXD-yU-RAU" secondAttribute="bottom" constant="8" id="yQs-iT-8jx"/>
                                     <constraint firstItem="tXD-yU-RAU" firstAttribute="leading" secondItem="WMI-jy-FRV" secondAttribute="trailing" constant="8" id="yW6-5K-cP9"/>
                                     <constraint firstItem="tXD-yU-RAU" firstAttribute="trailing" secondItem="Khh-kt-Um2" secondAttribute="trailing" id="z6L-pH-FWg"/>
@@ -168,7 +177,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="195" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ISA-Zv-DmF">
-                                <rect key="frame" x="0.0" y="330" width="375" height="337"/>
+                                <rect key="frame" x="0.0" y="347" width="375" height="320"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="TweetCell" rowHeight="195" id="SB1-Lm-hri" customClass="TweetCell" customModule="SimpleTwitter" customModuleProvider="target">
@@ -315,7 +324,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="DxM-8v-DPF" secondAttribute="trailing" id="B29-NE-Ez0"/>
-                            <constraint firstItem="DxM-8v-DPF" firstAttribute="top" secondItem="yGe-j5-2tY" secondAttribute="bottom" constant="5" id="N8H-L3-UMc"/>
+                            <constraint firstItem="DxM-8v-DPF" firstAttribute="top" secondItem="yGe-j5-2tY" secondAttribute="bottom" id="N8H-L3-UMc"/>
                             <constraint firstItem="ISA-Zv-DmF" firstAttribute="leading" secondItem="l0M-8F-qUi" secondAttribute="leading" id="NAy-Of-Ed3"/>
                             <constraint firstAttribute="trailing" secondItem="ISA-Zv-DmF" secondAttribute="trailing" id="TOy-M6-fvM"/>
                             <constraint firstItem="ISA-Zv-DmF" firstAttribute="top" secondItem="DxM-8v-DPF" secondAttribute="bottom" id="ZqX-Vr-olW"/>
@@ -333,6 +342,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="coverImage" destination="Db7-c8-jQG" id="hRk-dA-LkN"/>
+                        <outlet property="taglineLabel" destination="GjI-0K-Vxh" id="zJf-Ng-4SG"/>
                         <outlet property="tweetsTableView" destination="ISA-Zv-DmF" id="stY-DL-F0T"/>
                         <outlet property="userFollowerCount" destination="WMI-jy-FRV" id="H3t-sj-zIp"/>
                         <outlet property="userFollowingCount" destination="ll5-7q-wQD" id="aUj-AW-nDm"/>

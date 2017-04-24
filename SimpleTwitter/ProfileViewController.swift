@@ -18,10 +18,12 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     @IBOutlet weak var userName: UILabel!
     @IBOutlet weak var userHandle: UILabel!
     @IBOutlet weak var tweetsTableView: UITableView!
+    @IBOutlet weak var taglineLabel: UILabel!
     
     var refreshControl: UIRefreshControl!
     var isMoreDataLoading = false
     var lastTweetId: Int? = -1
+    var userId: Int? = -1
     
     private var tweets: [Tweet]! {
         didSet {
@@ -49,30 +51,36 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             userImage.layer.cornerRadius = 5
             userImage.clipsToBounds = true
         }
-        
-        if let coverImageUrl = user?.coverImageUrl {
-            coverImage.setImageWith(coverImageUrl, placeholderImage: #imageLiteral(resourceName: "twitter_icon"))
-            coverImage.layer.cornerRadius = 5
-            coverImage.clipsToBounds = true
-        }
+
+        TwitterClient.sharedInstance?.profileBanner(userHandle: user?.screenname, completion: { (urlString: String?, error: Error?) -> (Void) in
+            if let urlString = urlString {
+                let url = URL(string: urlString)
+                self.coverImage.setImageWith(url!, placeholderImage: #imageLiteral(resourceName: "twitter_icon"))
+                self.coverImage.layer.cornerRadius = 5
+                self.coverImage.clipsToBounds = true
+            }
+        })
         
         userFollowerCount.text = String(describing: user?.followerCount ?? 0)
         userFollowingCount.text = String(describing: user?.followingCount ?? 0)
         userTweetCount.text = String(describing: user?.tweetCount ?? 0)
+        
+        taglineLabel.text = user?.tagline
+        
+        userId = user?.id
         
         loadTimelineTweets()
     }
     
     // Save list of home timeline tweets fetched from api and reload table view
     func loadTimelineTweets(loadLastTweetId: Int? = nil) {
-        TwitterClient.sharedInstance?.homeTimeline(lastTweetId: loadLastTweetId, success: { (tweets: [Tweet]) in
+        TwitterClient.sharedInstance?.userTimeline(userId: userId, lastTweetId: loadLastTweetId, success: { (tweets: [Tweet]) in
             if self.isMoreDataLoading {
                 self.tweets.append(contentsOf: tweets)
                 self.isMoreDataLoading = false
             } else {
                 self.tweets = tweets
             }
-//            self.refreshControl.endRefreshing()
             self.tweetsTableView.reloadData()
         }, failure: { (error: Error) in
             if self.isMoreDataLoading {
@@ -96,25 +104,4 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
         return tweets?.count ?? 0
     }
     
-    
-    // MARK: - TweetComposerViewControllerDelegate methods
-//    func tweetComposerViewControllerOnTweetCompletion(tweetComposerVC: TweetComposerViewController) {
-//        loadTimelineTweets()
-//    }
-    
-//    // MARK: - UIScrollViewDelegate
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if (!isMoreDataLoading) {
-//            // Calculate the position of one screen length before the bottom of the results
-//            let scrollViewContentHeight = tableView.contentSize.height
-//            let scrollOffsetThreshold = scrollViewContentHeight - tableView.bounds.size.height
-//            
-//            // When the user has scrolled past the threshold, start requesting
-//            if(scrollView.contentOffset.y > scrollOffsetThreshold && tableView.isDragging) {
-//                isMoreDataLoading = true
-//                loadTimelineTweets(loadLastTweetId: lastTweetId)
-//            }
-//            
-//        }
-//    }
 }
