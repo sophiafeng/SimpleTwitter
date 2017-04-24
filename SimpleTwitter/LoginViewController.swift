@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
     @IBAction func onLoginButton(_ sender: UIButton) {
         TwitterClient.sharedInstance?.login(success: {
             print("I'm logged in")
-            self.performSegue(withIdentifier: "loginSegue", sender: nil)
+            self.performSegue(withIdentifier: "userLoginSegue", sender: nil)
         }, failure: { (error: Error) in
             print(error.localizedDescription)
         })
@@ -29,6 +29,14 @@ class LoginViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let menuVC = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
+        let hamburgerVC = segue.destination as! HamburgerViewController
+        menuVC.hamburgerVC = hamburgerVC
+        hamburgerVC.menuVC = menuVC
     }
     
 
