@@ -24,6 +24,7 @@ class TweetCell: UITableViewCell {
     @IBOutlet weak var retweetButton: RetweetButton!
     @IBOutlet weak var favoriteButton: FavoriteButton!
     
+    
     @IBAction func onRetweetButton(_ sender: RetweetButton) {
         print("retweet button tapped")
         if(sender.isSelected) {
@@ -56,6 +57,7 @@ class TweetCell: UITableViewCell {
             userImage.setImageWith(userImageUrl, placeholderImage: #imageLiteral(resourceName: "twitter_icon"))
             userImage.layer.cornerRadius = 5
             userImage.clipsToBounds = true
+            userImage.isUserInteractionEnabled = true
         }
         
         //@(todo) put in utility

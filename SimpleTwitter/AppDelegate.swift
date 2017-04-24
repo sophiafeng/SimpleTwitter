@@ -17,14 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
-        // Hamburger
-//        let hamburgerVC = window?.rootViewController as! HamburgerViewController
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let menuVC = storyboard.instantiateViewController(withIdentifier: "MenuViewController") as! MenuViewController
-//        menuVC.hamburgerVC = hamburgerVC
-//        hamburgerVC.menuVC = menuVC
-        
-        
         // Set nav bar color
         UINavigationBar.appearance().tintColor = UIColor.white
         let navTitleAttributes = [

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class ProfileViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, TweetComposerViewControllerDelegate, UIScrollViewDelegate {
 
     @IBOutlet weak var coverImage: UIImageView!
     @IBOutlet weak var userImage: UIImageView!
@@ -25,6 +25,8 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     var lastTweetId: Int? = -1
     var userId: Int? = -1
     
+    var user: User!
+    
     private var tweets: [Tweet]! {
         didSet {
             if ((tweets?.count) != nil) && (tweets?.count)! > 0 {
@@ -36,12 +38,16 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Set up table view
         tweetsTableView.delegate = self
         tweetsTableView.dataSource = self
         tweetsTableView.rowHeight = UITableViewAutomaticDimension
         tweetsTableView.estimatedRowHeight = 70
         
-        let user = User.currentUser
+        // Initialize a UIRefreshControl
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlAction(_:)), for: UIControlEvents.valueChanged)
+        tweetsTableView.insertSubview(refreshControl, at: 0)
         
         userName.text = user?.name
         userHandle.text = "@\(user?.screenname ?? "")"
@@ -81,6 +87,7 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             } else {
                 self.tweets = tweets
             }
+            self.refreshControl.endRefreshing()
             self.tweetsTableView.reloadData()
         }, failure: { (error: Error) in
             if self.isMoreDataLoading {
@@ -88,6 +95,10 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
             }
             print(error.localizedDescription)
         })
+    }
+    
+    func refreshControlAction(_ refreshControl: UIRefreshControl) {
+        loadTimelineTweets()
     }
     
     // MARK: - UITableViewDataSource methods
@@ -102,6 +113,47 @@ class ProfileViewController: UIViewController, UITableViewDataSource, UITableVie
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tweets?.count ?? 0
+    }
+    
+    // MARK: - UIScrollViewDelegate
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if (!isMoreDataLoading) {
+            // Calculate the position of one screen length before the bottom of the results
+            let scrollViewContentHeight = tweetsTableView.contentSize.height
+            let scrollOffsetThreshold = scrollViewContentHeight - tweetsTableView.bounds.size.height
+            
+            // When the user has scrolled past the threshold, start requesting
+            if(scrollView.contentOffset.y > scrollOffsetThreshold && tweetsTableView.isDragging) {
+                isMoreDataLoading = true
+                loadTimelineTweets(loadLastTweetId: lastTweetId)
+            }
+            
+        }
+    }
+    
+    // MARK: - Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "profileToComposerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let tweetComposerVC = navigationController.topViewController as! TweetComposerViewController
+            tweetComposerVC.tweetComposerVCDelegte = self
+        } else if segue.identifier == "profileToDetailsSegue" {
+            let detailsViewController = segue.destination as! DetailsViewController
+            let indexPath = tweetsTableView.indexPath(for: sender as! UITableViewCell)
+            detailsViewController.tweet = tweets[indexPath!.row]
+        } else if segue.identifier == "profileToReplyComposerSegue" {
+            let navigationController = segue.destination as! UINavigationController
+            let tweetComposerVC = navigationController.topViewController as! TweetComposerViewController
+            let cell = (sender as! ReplyButton).superview?.superview
+            let indexPath = tweetsTableView.indexPath(for: cell as! UITableViewCell)
+            tweetComposerVC.tweetComposerVCDelegte = self
+            tweetComposerVC.repliedTweet = tweets[indexPath!.row]
+        }
+    }
+    
+    // MARK: - TweetComposerViewControllerDelegate methods
+    func tweetComposerViewControllerOnTweetCompletion(tweetComposerVC: TweetComposerViewController) {
+        loadTimelineTweets()
     }
     
 }

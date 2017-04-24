@@ -16,6 +16,13 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
     
     @IBOutlet weak var tableView: UITableView!
     
+    var userTapped: User?
+    @IBAction func onUserImageTap(_ sender: UITapGestureRecognizer) {
+        print("tapped user image")
+        userTapped = tweets[(sender.view?.tag)!].user
+        self.performSegue(withIdentifier: "userProfileSegue", sender: nil)
+    }
+    
     private var tweets: [Tweet]! {
         didSet {
             if ((tweets?.count) != nil) && (tweets?.count)! > 0 {
@@ -68,15 +75,9 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
         loadTimelineTweets()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // MARK: - UITableViewDataSource methods
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "TweetCell") as! TweetCell
-        
         let tweet = tweets[indexPath.row]
         cell.buildCellWithTweet(tweet: tweet)
         cell.selectionStyle = UITableViewCellSelectionStyle.none
@@ -109,6 +110,9 @@ class TweetsViewController: UIViewController, UITableViewDelegate, UITableViewDa
             let indexPath = tableView.indexPath(for: cell as! UITableViewCell)
             tweetComposerVC.tweetComposerVCDelegte = self
             tweetComposerVC.repliedTweet = tweets[indexPath!.row]
+        } else if segue.identifier == "userProfileSegue" {
+            let profileViewController = segue.destination as! ProfileViewController
+            profileViewController.user = userTapped
         }
     }
     

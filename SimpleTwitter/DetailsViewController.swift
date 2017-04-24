@@ -78,8 +78,8 @@ class DetailsViewController: UIViewController {
         userNameLabel.text = user?.name ?? ""
         userHandleLabel.text = "@\(user?.screenname ?? "")"
         
-        retweetCountLabel.text = String(describing: (tweet?.retweetCount)!)
-        favoriteCountLabel.text = String(describing: (tweet?.favoritesCount)!)
+        retweetCountLabel.text = String(describing: tweet?.retweetCount ?? 0)
+        favoriteCountLabel.text = String(describing: tweet?.favoritesCount ?? 0)
     }
 
     override func didReceiveMemoryWarning() {
